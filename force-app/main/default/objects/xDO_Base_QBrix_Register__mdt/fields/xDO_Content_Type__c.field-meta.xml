@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>xDO_Content_Type__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Content Type</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Metadata only</fullName>
+                <default>false</default>
+                <label>Metadata only</label>
+            </value>
+            <value>
+                <fullName>Record Data only</fullName>
+                <default>false</default>
+                <label>Record Data only</label>
+            </value>
+            <value>
+                <fullName>Metadata_and_Record_Data</fullName>
+                <default>false</default>
+                <label>Metadata and Record Data</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

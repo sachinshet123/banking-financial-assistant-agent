@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>display_output_message_for_invalid_email</name>
+        <label>display output message for invalid email</label>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>OutputMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>invalid email address</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>display_output_message_for_valid_emails</name>
+        <label>display output message for valid emails</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>OutputMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>valid email address</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>check_if_email_exists_or_not</name>
+        <label>check if email exists or not</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>email_exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Customer_Records_Based_on_Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>display_output_message_for_valid_emails</targetReference>
+            </connector>
+            <label>email exists</label>
+        </rules>
+        <rules>
+            <name>email_does_not_exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Customer_Records_Based_on_Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>display_output_message_for_invalid_email</targetReference>
+            </connector>
+            <label>email does not exists</label>
+        </rules>
+    </decisions>
+    <description>Flow to check if Email id of User Exists</description>
+    <environments>Default</environments>
+    <interviewLabel>Customer Account Detail {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Customer Account Detail</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>To get customer record based on email received from agentforce</description>
+        <name>Get_Customer_Records_Based_on_Email</name>
+        <label>Get Customer Records Based on Email</label>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>check_if_email_exists_or_not</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Email__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Email</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Customer_Account_Details__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Customer_Records_Based_on_Email</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Variable to receive email id from agent</description>
+        <name>Email</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>to give Valid or Not Valid output back to agent</description>
+        <name>OutputMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

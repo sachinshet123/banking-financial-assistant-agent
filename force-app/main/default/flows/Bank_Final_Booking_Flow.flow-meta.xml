@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>To send booking confirmation status back to agent</description>
+        <name>Slot_Booking_Confirmation</name>
+        <label>Slot Booking Confirmation</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>outputVariable</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Slot Booking Confirmed</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Flow to perform final slot booking</description>
+    <environments>Default</environments>
+    <interviewLabel>Bank Final Booking Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Bank Final Booking Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>to Update Appointment Booking slot</description>
+        <name>Update_Appointment_Booking_Slot</name>
+        <label>Update Appointment Booking Slot</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <connector>
+            <targetReference>Slot_Booking_Confirmation</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>AppointmentName</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Slot_Status__c</field>
+            <value>
+                <stringValue>Booked</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Bank_Appointment__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Appointment_Booking_Slot</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Variable to store appointment name from user</description>
+        <name>AppointmentName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Var to store email id being sent from agentforce</description>
+        <name>email</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>To send booking confirmation status to Agentforce</description>
+        <name>outputVariable</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

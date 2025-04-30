@@ -1,0 +1,138 @@
+<apex:page controller="ComplaintFormController">
+    <style>
+        /* Basic Styling for the Form */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #34495e;
+            margin-bottom: 5px;
+            display: inline-block;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .confirmation-message {
+            text-align: center;
+            font-size: 16px;
+            color: #2ecc71;
+            padding: 15px;
+            background-color: #ecf8e1;
+            border: 1px solid #2ecc71;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .form-section {
+            margin-bottom: 20px;
+        }
+    </style>
+
+    <!-- Form Container -->
+    <div class="container">
+        <h2>Complaint Submission Form</h2>
+
+        <!-- Display Confirmation Message if Complaint is Registered -->
+        <apex:outputPanel rendered="{!NOT(ISBLANK(successMessage))}">
+            <div class="confirmation-message">
+                {!successMessage}
+            </div>
+        </apex:outputPanel>
+
+        <!-- Start of Form -->
+        <apex:form >
+            <!-- Email -->
+            <div class="form-section">
+                <label for="email">Email ID:</label>
+                <apex:inputText id="email" value="{!email}" required="true" />
+                <apex:facet name="errorMessage">
+                    <div class="error-message">Please enter a valid email.</div>
+                </apex:facet>
+            </div>
+
+            <!-- Complaint Reason -->
+            <div class="form-section">
+                <label for="complaintReason">Complaint Reason:</label>
+                <apex:inputText id="complaintReason" value="{!complaintReason}" required="true" />
+            </div>
+
+            <!-- Complaint Description -->
+            <div class="form-section">
+                <label for="complaint">Complaint:</label>
+                <apex:inputTextArea id="complaint" value="{!complaint}" required="true" rows="4" />
+            </div>
+
+            <!-- Priority -->
+            <div class="form-section">
+                <label for="priority">Priority:</label>
+                <apex:selectList id="priority" value="{!priority}" size="1" required="true">
+                    <apex:selectOption itemValue="" itemLabel="-- Select Priority --" />
+                    <apex:selectOption itemValue="High" itemLabel="High" />
+                    <apex:selectOption itemValue="Medium" itemLabel="Medium" />
+                    <apex:selectOption itemValue="Low" itemLabel="Low" />
+                </apex:selectList>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <apex:commandButton value="Submit Complaint" action="{!submitComplaint}" styleClass="button" />
+            </div>
+        </apex:form>
+
+    </div>
+
+</apex:page>

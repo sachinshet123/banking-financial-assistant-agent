@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Action to send OTP email to user</description>
+        <name>Send_OTP_Email</name>
+        <label>Send OTP Email</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>EmailInput</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>Bank Login OTP</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Flow to send OTP&apos;s based on Email Received from agentforce</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Formula to create 6 digit random numbers for OTP Purposes</description>
+        <name>RandomOtp</name>
+        <dataType>String</dataType>
+        <expression>TEXT(MOD( VALUE(TEXT(YEAR(DATEVALUE(NOW()))))*10000 + VALUE(TEXT(MONTH(DATEVALUE(NOW()))))*100 + VALUE(TEXT(DAY(DATEVALUE(NOW()))))*10 + VALUE(MID(TEXT(NOW()), 12, 2)) , 900000 ) + 100000)</expression>
+    </formulas>
+    <interviewLabel>OTP Transaction Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>OTP Transaction Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>To create OTP Registration record to help validating otp logins</description>
+        <name>Otp_Registration_Record_Creation</name>
+        <label>Otp Registration Record Creation</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <connector>
+            <targetReference>Send_OTP_Email</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Email__c</field>
+            <value>
+                <elementReference>EmailInput</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Generated_OTP__c</field>
+            <value>
+                <elementReference>RandomOtp</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Verified__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>OTP__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Otp_Registration_Record_Creation</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <description>To Send OTP Email to User</description>
+        <name>EmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hi Customer , &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;          We have seen that you are trying to login . Use the following OTP &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!RandomOtp} to login successfully. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;Have a great Day.! &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>EmailInput</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>OutputMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

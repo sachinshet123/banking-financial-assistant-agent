@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>To Assign Atm Records</description>
+        <name>Atm_Records_Assignment</name>
+        <label>Atm Records Assignment</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>AtmRecord</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Available_Atm_s_list</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Flow to display available ATM&apos;s near customer registered location</description>
+    <environments>Default</environments>
+    <interviewLabel>Atmfinder {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Atmfinder</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>To retrieve available atm&apos;s list</description>
+        <name>Get_Available_Atm_s_list</name>
+        <label>Get Available Atm&apos;s list</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Atm_Records_Assignment</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ATM_Location__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetCustomerLocation.Address__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ATM__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>To retrieve customer location for atm display</description>
+        <name>GetCustomerLocation</name>
+        <label>GetCustomerLocation</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Available_Atm_s_list</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Email__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Email</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Customer_Account_Details__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GetCustomerLocation</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Variable to store values of multiple atm records available for customer</description>
+        <name>AtmRecord</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>ATM__c</objectType>
+    </variables>
+    <variables>
+        <description>Variable to store email address of customer sent from Agentforce</description>
+        <name>Email</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

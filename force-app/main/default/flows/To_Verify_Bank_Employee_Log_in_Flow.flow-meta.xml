@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>response_for_employee_does_not_exists</name>
+        <label>response for employee does not exists</label>
+        <locationX>314</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>outputResponse</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>the employee does not exists. please re check your username and password</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>response_for_employee_exists</name>
+        <label>response for employee exists</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <assignmentItems>
+            <assignToReference>outputResponse</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>the employee is logged in successfully</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>To_check_whether_the_employee_exists_or_not</name>
+        <label>To check whether the employee exists or not</label>
+        <locationX>314</locationX>
+        <locationY>242</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>employee_exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_the_Bank_Employee_Record_Details</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>response_for_employee_exists</targetReference>
+            </connector>
+            <label>employee exists</label>
+        </rules>
+        <rules>
+            <name>employee_does_not_exists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_the_Bank_Employee_Record_Details</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>response_for_employee_does_not_exists</targetReference>
+            </connector>
+            <label>employee does not exists</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>To Verify Bank Employee Log in Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>To Verify Bank Employee Log in Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_the_Bank_Employee_Record_Details</name>
+        <label>Get the Bank Employee Record Details</label>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>To_check_whether_the_employee_exists_or_not</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Username__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>employeeUsername</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Password__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>employeePassword</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Bank_Employee_Details__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_the_Bank_Employee_Record_Details</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>employeePassword</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>employeeUsername</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>outputResponse</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

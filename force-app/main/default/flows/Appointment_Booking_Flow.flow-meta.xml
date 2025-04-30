@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>To assign list of available bank slots</description>
+        <name>Bank_Appointment_List_Display</name>
+        <label>Bank Appointment List Display</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>BankAppointmentCollection</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>GetAppointmentRecords</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Flow to book an appointment for Customer</description>
+    <environments>Default</environments>
+    <interviewLabel>Appointment Booking Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Appointment Booking Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>To get records of Appointments</description>
+        <name>GetAppointmentRecords</name>
+        <label>GetAppointmentRecords</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Bank_Appointment_List_Display</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Bank_Name__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>BankName</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Bank_Location__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Location</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Slot_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Not Booked</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Bank_Appointment__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GetAppointmentRecords</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Variable to store all the records of bank appointments</description>
+        <name>BankAppointmentCollection</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Bank_Appointment__c</objectType>
+    </variables>
+    <variables>
+        <description>To store Bank name coming from agentforce</description>
+        <name>BankName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Var to store Location being sent from agentforce</description>
+        <name>Location</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

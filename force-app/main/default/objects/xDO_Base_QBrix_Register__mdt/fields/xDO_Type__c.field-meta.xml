@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>xDO_Type__c</fullName>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Type</label>
+    <required>true</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Demo Component</fullName>
+                <default>false</default>
+                <label>Demo Component</label>
+            </value>
+            <value>
+                <fullName>Sales Play</fullName>
+                <default>false</default>
+                <label>Sales Play</label>
+            </value>
+            <value>
+                <fullName>Industry Solution</fullName>
+                <default>false</default>
+                <label>Industry Solution</label>
+            </value>
+            <value>
+                <fullName>End to End Demo</fullName>
+                <default>false</default>
+                <label>End to End Demo</label>
+            </value>
+            <value>
+                <fullName>Data Pack</fullName>
+                <default>false</default>
+                <label>Data Pack</label>
+            </value>
+            <value>
+                <fullName>Localization Pack</fullName>
+                <default>false</default>
+                <label>Localization Pack</label>
+            </value>
+            <value>
+                <fullName>Base xDO Component</fullName>
+                <default>false</default>
+                <label>Base xDO Component</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

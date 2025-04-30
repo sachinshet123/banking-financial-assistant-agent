@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>To store the out put value</description>
+        <name>OutPutVariable_Assignment</name>
+        <label>OutPutVariable Assignment</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>OutPutMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue> Bank Investor agents will get in touch with them soon</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Flow to generate lead records if customers show interest in Banks Savings Scheme</description>
+    <environments>Default</environments>
+    <interviewLabel>Bank Lead Generation Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Bank Lead Generation Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>To Create Potential lead for Bank Investments</description>
+        <name>Bank_Lead_Record_Creation</name>
+        <label>Bank Lead Record Creation</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <connector>
+            <targetReference>OutPutVariable_Assignment</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Email_Id__c</field>
+            <value>
+                <elementReference>CustomerEmail</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Interested_Scheme__c</field>
+            <value>
+                <elementReference>InterestedScheme</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Investment_Amount__c</field>
+            <value>
+                <elementReference>Investmentamount</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Bank_Investment_Lead__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Bank_Lead_Record_Creation</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Variable to store customer email being received from agentforce</description>
+        <name>CustomerEmail</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Variable to store Interested scheme choice of user coming from agentforce</description>
+        <name>InterestedScheme</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Variable to store Investment amount of customer from agentforce</description>
+        <name>Investmentamount</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Var to store output value for the agentforce</description>
+        <name>OutPutMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

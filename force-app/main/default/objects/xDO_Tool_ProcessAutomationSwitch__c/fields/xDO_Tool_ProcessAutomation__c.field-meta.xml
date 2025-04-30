@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>xDO_Tool_ProcessAutomation__c</fullName>
+    <defaultValue>true</defaultValue>
+    <description>WHAT: If true, this will allow all process automation that references this custom setting to be considered during normal transactions in Salesforce
+
+WHO: Built by Jory Dean, December 2022</description>
+    <inlineHelpText>If true, this will allow all process automation that references this custom setting to be considered during normal transactions in Salesforce</inlineHelpText>
+    <label>Process Automation Status</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

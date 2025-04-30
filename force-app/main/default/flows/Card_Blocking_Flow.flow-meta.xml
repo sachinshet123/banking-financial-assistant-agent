@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>To assign message for output variable</description>
+        <name>Assignment_for_output_Variable</name>
+        <label>Assignment for output Variable</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <assignmentItems>
+            <assignToReference>OutPutMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Card Blocked Successfully</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Flow to block Card based on Customer.</description>
+    <environments>Default</environments>
+    <interviewLabel>Card Blocking Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Card Blocking Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>To update record of bank customer to block his card.</description>
+        <name>Bank_Customers_Record_Update</name>
+        <label>Bank Customers Record Update</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <connector>
+            <targetReference>Assignment_for_output_Variable</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Email__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Email</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Card_Blocking_Status__c</field>
+            <value>
+                <stringValue>Blocked</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Customer_Account_Details__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Bank_Customers_Record_Update</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Variable to store email being sent by agentforce</description>
+        <name>Email</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Var to store output message intended for agentforce</description>
+        <name>OutPutMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>xDO_Documentation_Link__c</fullName>
+    <description>WHAT: URL to QBrix documentation which could include installation, configuration or general QBrix information
+WHO: Kevin Akermanis
+WHEN: Nov 2021</description>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Documentation Link</label>
+    <required>true</required>
+    <type>Url</type>
+</CustomField>
